@@ -18,6 +18,7 @@ connectDB();
 // Load routes files
 const auth = require("./routes/auth");
 const user = require("./routes/user");
+const book = require("./routes/book")
 const { urlencoded } = require("express");
 
 // initialize out app variable with express
@@ -42,6 +43,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Mount routes
 app.use("/auth", auth);
 app.use("/user", user);
+app.use("/book", book);
 
 // To use the custom error message
 app.use(errorHandler);

@@ -2,13 +2,14 @@ const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 const User = require("../model/user");
 const crypto = require("crypto");
+const Book = require("../model/Book");
 
 //--------------------------REGISTER USER-----------------
 
 exports.register = asyncHandler(async (req, res, next) => {
-  const { fname, lname,username, password } = req.body;
+  const { fullname, email,address, password } = req.body;
   const user = await User.create({
-    fname, lname, username, password
+    fullname, email, address, password
   });
 
   sendTokenResponse(user, 200, res);
@@ -17,14 +18,14 @@ exports.register = asyncHandler(async (req, res, next) => {
 //-------------------LOGIN-------------------
 
 exports.login = asyncHandler(async (req, res, next) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  if (!username || !password) {
+  if (!email || !password) {
     return next(new ErrorResponse("Please provide email and password"), 400);
   }
 
   // Check user
-  const user = await User.findOne({ username: username }).select("+password");
+  const user = await User.findOne({ email: email }).select("+password");
   //because in password field we have set the property select:false , but here we need as password so we added + sign
 
   if (!user) {
@@ -39,7 +40,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   // const isMatch = await user.matchPassword(password); // decrypt password
   
   if (user.password!= password) {
-    res
+    res 
     .status(201)
     .json({
       success: false,

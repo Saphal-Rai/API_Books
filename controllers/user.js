@@ -5,6 +5,7 @@ const asyncHandler = require("../middleware/async");
 const path = require("path");
 
 
+
 //--------------------CREATE Student------------------
 
 exports.createUser = asyncHandler(async (req, res, next) => {
@@ -51,7 +52,7 @@ exports.getuserById = asyncHandler(async (req, res, next) => {
   // -----------------DELETE STUDENT------------------------
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
-    const user = await Student.findById(req.params.id);
+    const user = await user.findById(req.params.id);
   
     if (!student) {
       return next(new ErrorResponse(`No user found `), 404);
